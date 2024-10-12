@@ -13,11 +13,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y arduino-cli
 
       - name: Compile firmware
-        run: compile --fqbn esp8266:esp8266:d1_mini --board=esp8266 ESP8266_WebServer_Timer.ino
+        run: arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino
 
       - name: Upload firmware
-        run: arduino-cli upload --fqbn=esp8266:esp8266:d1_mini --board=esp8266 ESP8266_WebServer_Timer.ino
+        run: arduino-cli upload --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino
