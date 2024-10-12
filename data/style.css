@@ -1,0 +1,633 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-image: url('/climber.png');
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Adding a semi-transparent overlay */
+}
+
+h1,
+h2 {
+    color: #1abc9c;
+    /* Sporty green color */
+    text-transform: uppercase;
+    /* Adding uppercase for a sporty feel */
+    letter-spacing: 2px;
+    /* Adding letter spacing for better readability */
+}
+
+/* TABS: TIMER // RESULTS // LANGUAGE */
+/* Add these styles for the tab structure */
+.tab-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.tab-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Prevent TABS from having Radio Button */
+.tab-container input[type="radio"] {
+    display: none;
+}
+
+/* TABS #1 & #2 - Define Width & Ratio & Round Shape */
+.tab-container label {
+    padding: 8px 25px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    cursor: pointer;
+    margin-right: 1px;
+    border-radius: 10px 10px 0 0;
+}
+
+.tab-container input[type="radio"]:checked+label {
+    background-color: #fff;
+    border-bottom: 1px solid #fff;
+    margin-bottom: -1px;
+}
+
+.language-toggle {
+    margin-left: auto;
+}
+
+.tab-content {
+    display: none;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+/* #tab1:checked~#tab1-content
+#tab2:checked~#tab2-content {
+    display: block;
+} */
+#tab1:checked ~ #tab1-content {
+    display: block;
+}
+
+/* TAB 2 - FILE MENU and all BUTTONS */
+#tab2:~ #tab2-content {
+    display: none; /* block */
+}
+
+#tab2-content {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    display: none; /* Prevent Display when Main tab#1 is Loaded */
+}
+
+.options-menu {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.options-menu li {
+    margin-bottom: 15px;
+}
+
+.options-menu button {
+    width: 100%;
+    padding: 13px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    color: #333;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.options-menu button:hover {
+    background-color: #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.options-menu button b {
+    color: #1a6bbc;
+    margin-right: 8px;
+}
+
+@media (max-width: 480px) {
+    .options-menu {
+        max-width: 100%;
+    }
+
+    .options-menu button {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
+
+
+/* LANGUAGE TOGGLE BUTTON */
+.language-checkbox {
+    display: none;
+}
+
+.language-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.language-label::after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: white;
+    top: 2px;
+    left: 2px;
+    transition: 0.3s;
+}
+
+.language-checkbox:checked+.language-label {
+    background-color: #4CAF50;
+}
+
+.language-checkbox:checked+.language-label::after {
+    left: 32px;
+}
+
+.language-en,
+.language-fr {
+    font-size: 12px;
+    color: #fff;
+    z-index: 1;
+}
+
+
+/* MENUS: RESULTS & FILES OPTIONS */
+/* Styles for the options menu */
+.options-menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.options-menu li {
+    margin-bottom: 10px;
+}
+
+.options-menu button {
+    width: 100%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* LANGUAGE TOGGLE - CheckBox */
+/* Styles for the language toggle */
+.language-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.cmn-toggle {
+    position: absolute;
+    margin-left: -9999px;
+    visibility: hidden;
+}
+
+.cmn-toggle+label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+}
+
+input.cmn-toggle-round+label {
+    padding: 2px;
+    width: 60px;
+    height: 30px;
+    background-color: #dddddd;
+    border-radius: 30px;
+}
+
+input.cmn-toggle-round+label:before,
+input.cmn-toggle-round+label:after {
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    bottom: 1px;
+    content: "";
+}
+
+input.cmn-toggle-round+label:before {
+    right: 1px;
+    background-color: #f1f1f1;
+    border-radius: 30px;
+    transition: background 0.4s;
+
+}
+
+input.cmn-toggle-round+label:after {
+    width: 26px;
+    /* 28px */
+    height: 26px;
+    top: 3px;
+    background-color: #fff;
+    border-radius: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: margin 0.3s;
+}
+
+input.cmn-toggle-round:checked+label:before {
+    background-color: #8ce196;
+}
+
+input.cmn-toggle-round:checked+label:after {
+    margin-left: 30px;
+}
+
+.language-en,
+.language-fr {
+    font-size: 12px;
+    margin: 0 5px;
+    color: #2c3e50
+}
+
+/* MAIN PAGE - CONTAINER */
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Adding a semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    /* Adding rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Adding a subtle shadow */
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.input-container input[type="text"] {
+    width: 65%;
+    margin-right: 10px;
+    padding: 10px;
+    border: 2px solid #1abc9c;
+    /* Sporty green border */
+    border-radius: 20px;
+}
+
+.input-container button {
+    width: 35%;
+    background-color: #1abc9c;
+    /* Sporty green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+/* CLIMBER TABLE - MAIN */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+/* Table Header: Icon for 1st SELECT column */
+th:first-child {
+    font-size: larger;
+    text-align: center;
+}
+
+#climberTable th::after {
+    content: '';
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#climberTable th.sorted-asc::after {
+    content: '\25b3';
+    /* Pointing UP */
+    /* &#x25b4 */
+}
+
+#climberTable th.sorted-desc::after {
+    content: '\25bd';
+    /* Pointing DOWN */
+}
+
+/* Forces visibility of Radio Button for Select */
+#climberTable input[type="radio"] {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+/* Main NAME / TIME / ACTION - Table HEADER & ROWS size */
+th,
+td {
+    padding: 5px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #1a6bbc;
+    /* Sporty green background */
+    color: white;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#addClimber {
+    /* padding: 2px 5px  */
+    background-color: #95a5a6;
+    color: white;
+}
+
+#startStop {
+    background-color: #2ecc71;
+    color: white;
+}
+
+#penalty {
+    background-color: #e74c3c;
+    color: white;
+}
+
+#reset {
+    background-color: #f39c12;
+    color: white;
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin: 5px 0;
+    width: calc(100% - 22px);
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.action-button {
+    padding: 5px 10px;
+    margin: 2px;
+    font-size: 14px;
+}
+
+.button-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: black !important;
+}
+
+.button-yellow {
+    background-color: yellow !important;
+    color: black !important;
+}
+
+.button-red {
+    background-color: red !important;
+    color: white !important;
+}
+
+/* EDIT & REMOVE BUTTONS - icons side by side */
+.action-buttons {
+    display: flex;
+    /* Use flexbox to align items */
+    align-items: center;
+    /* Center items vertically */
+    gap: 14px;
+    /* Small gap between buttons */
+}
+
+.edit-button,
+.remove-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0px;
+    /* Reduced padding */
+    margin: 0;
+    /* Add small margin between buttons */
+    display: inline-flex;
+    /* Use flexbox for better alignment */
+    align-items: center;
+    justify-content: center;
+
+    /* Size of EDIT & REMOVE ICONS */
+    width: 24px;
+    height: 24px;
+}
+
+.edit-button {
+    background-color: #7eb8df;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #7899b0;
+}
+
+.remove-button {
+    background-color: #dfa19a;
+    color: white;
+}
+
+.remove-button:hover {
+    background-color: #c0837c;
+}
+
+.icon-svg {
+    width: 16px;
+    /* Adjust as needed */
+    height: 16px;
+    /* Adjust as needed */
+    display: block;
+    /* vertical-align: middle; IGNORED DUE TO BLOCK */
+}
+
+/* You may want to add some spacing between the buttons 
+.edit-button+.remove-button {
+    margin-left: 8px;
+}
+*/
+/* MESSAGE BOX - WHAT FOR ?? */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* background-color: rgb(0, 0, 0); */
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Custom Alert Message */
+.custom-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    /* Light background */
+    color: #2c3e50;
+    /* Dark text */
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Light shadow for floating effect */
+    z-index: 1000;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    max-width: 80%;
+    width: 300px;
+}
+
+.custom-alert-message {
+    font-size: 18px;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.custom-alert-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    /* Light blue button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.custom-alert-button:hover {
+    background-color: #2980b9;
+    /* Darker blue on hover */
+}
+
+.custom-alert-button:active {
+    transform: scale(0.98);
+}
+
+/* Timer TITLE & CHRONO */
+#timer {
+    font-size: 36px;
+    /*
+    font-weight: bold;
+    margin: 10px 0;
+    color: #020f0c; */
+    /* Sporty green color */
+}
+
+.timer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    /* padding: 10px; */
+    box-sizing: border-box;
+}
+
+.timer-label {
+    font-size: 8vw;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.lcd-display {
+    font-family: 'DS-Digital', Courier, monospace;
+    font-size: 10vw;
+    color: #006400;
+    /* Darker green for better contrast */
+    flex-grow: 1;
+    text-align: right;
+    margin-left: 10px;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+@media (min-width: 600px) {
+    .timer-label {
+        font-size: 24px;
+    }
+
+    .lcd-display {
+        font-size: 32px;
+    }
+}
