@@ -1,44 +1,59 @@
-name: Build Firmware
+name: Build ESP8266 Firmware
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-
-      - name: Install Arduino CLI
-        uses: arduino/setup-arduino-cli@v2.0.0
-        with:
-          version: '1.0.0'  # Specify the version you need
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Add ESP8266 Board Manager
-        run: |
-          arduino-cli core update-index
-          arduino-cli core install esp8266:esp8266
-        env:
-          ADDITIONAL_URLS: http://arduino.esp8266.com/stable/package_esp8266com_index.json
-
-      - name: Check arduino-cli Installation
-        run: |
-          echo "arduino-cli installation path:"
-          which arduino-cli
-          arduino-cli version
-
-      - name: Compile firmware
-        run: arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino
-
-      - name: Upload firmware
-        run: arduino-cli upload --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Cache Arduino CLI
+      uses: actions/cache@v3
+      with:
+        path: ~/.arduino15
+        key: ${{ runner.os }}-arduino-${{ hashFiles('**/ESP8266_WebServer_Timer.ino') }}
+        restore-keys: |
+          ${{ runner.os }}-arduino-
+          
+    - name: Setup Arduino CLI
+      uses: arduino/setup-arduino-cli@v1
+      
+    - name: Install ESP8266 platform
+      run: |
+        arduino-cli core update-index
+        arduino-cli core install esp8266:esp8266
+      
+    - name: Install required libraries
+      run: |
+        arduino-cli lib install ESP8266WiFi
+        arduino-cli lib install ESP8266WebServer
+        arduino-cli lib install DNSServer
+        arduino-cli lib install LittleFS
+      
+    - name: Compile sketch
+      run: |
+        arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino --output-dir ./
+      
+    - name: Rename output file
+      run: mv ESP8266_WebServer_Timer.ino.bin firmware.bin
+      
+    - name: Check if firmware was built
+      run: |
+        if [ ! -f firmware.bin ]; then
+          echo "Firmware build failed"
+          exit 1
+        fi
+      
+    - name: Upload firmware as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: firmware
+        path: firmware.bin
