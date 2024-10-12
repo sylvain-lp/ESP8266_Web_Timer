@@ -13,23 +13,23 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Cache Arduino CLI
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.arduino15
-        key: ${{ runner.os }}-arduino-${{ hashFiles('**/ESP8266_WebServer_Timer.ino') }}
+        key: ${{ runner.os }}-arduino-${{ hashFiles('**/ESP8266_WebServer.ino') }}
         restore-keys: |
           ${{ runner.os }}-arduino-
           
     - name: Setup Arduino CLI
-      uses: arduino/setup-arduino-cli@v1
+      uses: arduino/setup-arduino-cli@v1.1.1
       
     - name: Install ESP8266 platform
       run: |
-        arduino-cli core update-index
-        arduino-cli core install esp8266:esp8266
+        arduino-cli core update-index --additional-urls https://arduino.esp8266.com/stable/package_esp8266com_index.json
+        arduino-cli core install esp8266:esp8266 --additional-urls https://arduino.esp8266.com/stable/package_esp8266com_index.json
       
     - name: Install required libraries
       run: |
@@ -40,10 +40,10 @@ jobs:
       
     - name: Compile sketch
       run: |
-        arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino --output-dir ./
+        arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer.ino --output-dir ./
       
     - name: Rename output file
-      run: mv ESP8266_WebServer_Timer.ino.bin firmware.bin
+      run: mv ESP8266_WebServer.ino.bin firmware.bin
       
     - name: Check if firmware was built
       run: |
@@ -53,7 +53,7 @@ jobs:
         fi
       
     - name: Upload firmware as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: firmware
         path: firmware.bin
