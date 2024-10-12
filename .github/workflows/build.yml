@@ -21,6 +21,12 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y arduino-cli
 
+      - name: Check arduino-cli Installation
+        run: |
+          echo "arduino-cli installation path:"
+          which arduino-cli
+          arduino-cli version
+
       - name: Compile firmware
         run: arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino
 
