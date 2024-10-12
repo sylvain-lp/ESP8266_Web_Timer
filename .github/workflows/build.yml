@@ -18,8 +18,10 @@ jobs:
     - name: Cache Arduino CLI
       uses: actions/cache@v4
       with:
-        path: ~/.arduino15
-        key: ${{ runner.os }}-arduino-${{ hashFiles('**/ESP8266_WebServer.ino') }}
+        path: |
+          ~/.arduino15
+          ~/Arduino/libraries
+        key: ${{ runner.os }}-arduino-${{ hashFiles('**/ESP8266_WebServer_Timer.ino') }}
         restore-keys: |
           ${{ runner.os }}-arduino-
           
@@ -33,17 +35,15 @@ jobs:
       
     - name: Install required libraries
       run: |
-        arduino-cli lib install ESP8266WiFi
-        arduino-cli lib install ESP8266WebServer
-        arduino-cli lib install DNSServer
-        arduino-cli lib install LittleFS
+        arduino-cli lib install "LittleFS"
+        # Add any other external libraries your project needs here
       
     - name: Compile sketch
       run: |
-        arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer.ino --output-dir ./
+        arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino --output-dir ./
       
     - name: Rename output file
-      run: mv ESP8266_WebServer.ino.bin firmware.bin
+      run: mv ESP8266_WebServer_Timer.ino.bin firmware.bin
       
     - name: Check if firmware was built
       run: |
@@ -57,3 +57,16 @@ jobs:
       with:
         name: firmware
         path: firmware.bin
+
+    - name: List files in workspace
+      run: ls -R
+      
+    - name: Display Arduino CLI version
+      run: arduino-cli version
+      
+    - name: Display installed boards
+      run: arduino-cli board listall
+      
+    - name: Display installed libraries
+      run: arduino-cli lib list
+      
