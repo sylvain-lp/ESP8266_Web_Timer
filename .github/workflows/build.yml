@@ -38,7 +38,7 @@ jobs:
       
     - name: Compile sketch
       run: |
-        arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino --output-dir ./
+        arduino-cli compile --fqbn esp8266:esp8266:d1_mini --build-property "build.extra_flags=-DESP8266" ESP8266_WebServer_Timer.ino --output-dir ./
       
     - name: Rename output file
       run: |
