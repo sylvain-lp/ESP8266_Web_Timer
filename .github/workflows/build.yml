@@ -21,7 +21,7 @@ jobs:
         path: |
           ~/.arduino15
           ~/Arduino/libraries
-        key: ${{ runner.os }}-arduino-${{ hashFiles('**/ESP8266_WebServer_Timer.ino') }}
+        key: ${{ runner.os }}-arduino-${{ hashFiles('**/*.ino') }}
         restore-keys: |
           ${{ runner.os }}-arduino-
           
@@ -33,22 +33,29 @@ jobs:
         arduino-cli core update-index --additional-urls https://arduino.esp8266.com/stable/package_esp8266com_index.json
         arduino-cli core install esp8266:esp8266 --additional-urls https://arduino.esp8266.com/stable/package_esp8266com_index.json
       
-    #- name: Install required libraries
-    #  run: |
-    #    arduino-cli lib install "LittleFS"
-    #    # Add any other external libraries your project needs here
+    # - name: Install required libraries
+    # run: |
+    # arduino-cli lib install "LittleFS"
+    # Add any other external libraries your project needs here
+      
+    - name: List repository contents
+      run: ls -R
       
     - name: Compile sketch
       run: |
-        arduino-cli compile --fqbn esp8266:esp8266:d1_mini ESP8266_WebServer_Timer.ino --output-dir ./
+        SKETCH_PATH=$(find . -name "ESP8266_WebServer_Timer.ino")
+        if [ -z "$SKETCH_PATH" ]; then
+          echo "Error: ESP8266_WebServer_Timer.ino not found"
+          exit 1
+        fi
+        arduino-cli compile --fqbn esp8266:esp8266:d1_mini "$SKETCH_PATH" --output-dir ./
       
     - name: Rename output file
-      run: mv ESP8266_WebServer_Timer.ino.bin firmware.bin
-      
-    - name: Check if firmware was built
       run: |
-        if [ ! -f firmware.bin ]; then
-          echo "Firmware build failed"
+        if [ -f ESP8266_WebServer_Timer.ino.bin ]; then
+          mv ESP8266_WebServer_Timer.ino.bin firmware.bin
+        else
+          echo "Error: Compiled binary not found"
           exit 1
         fi
       
@@ -58,9 +65,6 @@ jobs:
         name: firmware
         path: firmware.bin
 
-    - name: List files in workspace
-      run: ls -R
-      
     - name: Display Arduino CLI version
       run: arduino-cli version
       
@@ -69,4 +73,3 @@ jobs:
       
     - name: Display installed libraries
       run: arduino-cli lib list
-      
