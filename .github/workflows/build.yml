@@ -1,5 +1,19 @@
 name: Build Firmware
 
+board_manager:
+  additional_urls:
+    - http://arduino.esp8266.com/stable/package_esp8266com_index.json
+
+    - name: Setup Arduino CLI
+  # You may pin to the exact commit or the version.
+  # uses: arduino/setup-arduino-cli@81d310742121c928ea9c8bbd407b4217b432ae02
+  uses: arduino/setup-arduino-cli@v2.0.0
+  with:
+    # Version to use. Example: (1.0.1, 1.0.x, 1.x)
+    version: # optional, default is 1.x
+    # Personal access token (PAT) used to call the Github API.
+    token: # optional, default is ${{ github.token }}
+
 on:
   push:
     branches:
