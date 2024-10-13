@@ -54,7 +54,7 @@ jobs:
         echo "Contents of sketch file: (skipped)"
         # cat "$SKETCH_FILE"
         echo "Compiling sketch: $SKETCH_FILE"
-        arduino-cli compile --fqbn esp8266:esp8266:d1_mini --build-property "build.extra_flags=-DESP8266" $SKETCH_FILE --verbose --output-dir ./
+        arduino-cli compile --fqbn esp8266:esp8266:d1_mini --build-property "build.extra_flags=-DESP8266" $SKETCH_FILE --output-dir ./
 
     - name: Rename output file
       run: |
@@ -65,6 +65,12 @@ jobs:
           ls -la
           exit 1
         fi
+
+    - name: Copy Compiled Firmware to /firmware Folder
+        run: |
+        if [ -f firmware.bin ]; then
+          mkdir -p firmware
+          cp firmware.bin firmware/firmware.bin
 
     - name: Upload firmware as artifact
       uses: actions/upload-artifact@v4
