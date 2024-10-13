@@ -48,11 +48,13 @@ jobs:
           echo "Error: No .ino file found in the repository"
           exit 1
         fi
+        SKETCH_DIR=$(dirname "$SKETCH_FILE")
         echo "Full path of sketch file: $SKETCH_FILE"
+        echo "Sketch directory: $SKETCH_DIR"
         echo "Contents of sketch file:"
         cat "$SKETCH_FILE"
         echo "Compiling sketch: $SKETCH_FILE"
-        arduino-cli compile --fqbn esp8266:esp8266:d1_mini --build-property "build.extra_flags=-DESP8266" "$SKETCH_FILE" --verbose --output-dir ./
+        arduino-cli compile --fqbn esp8266:esp8266:d1_mini --build-property "build.extra_flags=-DESP8266" --sketch-path "$SKETCH_DIR" --verbose --output-dir ./
 
     - name: Rename output file
       run: |
