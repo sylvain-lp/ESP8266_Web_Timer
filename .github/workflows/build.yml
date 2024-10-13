@@ -66,12 +66,12 @@ jobs:
           exit 1
         fi
 
-    - name: Copy Compiled Firmware to /firmware Folder
-        run: |
-          if [ -f firmware.bin ]; then
-            mkdir -p firmware
-            cp firmware.bin firmware/firmware.bin
-          fi
+    - name: Copy Compiled Firmware to firmware Folder
+      run: |
+        if [ -f firmware.bin ]; then
+          mkdir -p firmware
+          cp firmware.bin firmware/firmware.bin
+        fi
 
     - name: Upload firmware as artifact
       uses: actions/upload-artifact@v4
