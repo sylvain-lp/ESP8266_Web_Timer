@@ -79,49 +79,50 @@ jobs:
         name: firmware_esp8266
         path: firmware_esp8266.bin
 
+    # ------ Attempt at compiling for ESP8266 and ESP32 --------
+    # ------ But more code needs to be changed in .ino file ----
+    # - name: Install ESP32 platform
+    #   run: |
+    #     arduino-cli core update-index --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+    #     arduino-cli core install esp32:esp32 --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
 
-    - name: Install ESP32 platform
-      run: |
-        arduino-cli core update-index --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-        arduino-cli core install esp32:esp32 --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-
-    - name: Compile sketch for ESP32
-      run: |
-        SKETCH_FILE=$(find "$(pwd)" -name "*.ino" | head -n 1)
-        if [ -z "$SKETCH_FILE" ]; then
-          echo "Error: No .ino file found in the repository"
-          exit 1
-        fi
-        SKETCH_DIR=$(dirname "$SKETCH_FILE")
-        echo "Full path of sketch file: $SKETCH_FILE"
-        echo "Sketch directory: $SKETCH_DIR"
-        echo "Contents of sketch file: (skipped)"
+    # - name: Compile sketch for ESP32
+    #   run: |
+    #     SKETCH_FILE=$(find "$(pwd)" -name "*.ino" | head -n 1)
+    #     if [ -z "$SKETCH_FILE" ]; then
+    #       echo "Error: No .ino file found in the repository"
+    #       exit 1
+    #     fi
+    #     SKETCH_DIR=$(dirname "$SKETCH_FILE")
+    #     echo "Full path of sketch file: $SKETCH_FILE"
+    #     echo "Sketch directory: $SKETCH_DIR"
+    #     echo "Contents of sketch file: (skipped)"
         # cat "$SKETCH_FILE"
-        echo "Compiling sketch: $SKETCH_FILE"
-        arduino-cli compile --fqbn esp32:esp32:esp32 --build-property "build.extra_flags=-DESP32" $SKETCH_FILE --output-dir ./
+    #     echo "Compiling sketch: $SKETCH_FILE"
+    #     arduino-cli compile --fqbn esp32:esp32:esp32 --build-property "build.extra_flags=-DESP32" $SKETCH_FILE --output-dir ./
 
-    - name: Rename output file for ESP32
-      run: |
-        if [ -f *.ino.bin ]; then
-          mv *.ino.bin firmware_esp32.bin
-        else
-          echo "Error: Compiled binary not found"
-          ls -la
-          exit 1
-        fi
+    # - name: Rename output file for ESP32
+    #   run: |
+    #     if [ -f *.ino.bin ]; then
+    #       mv *.ino.bin firmware_esp32.bin
+    #     else
+    #       echo "Error: Compiled binary not found"
+    #       ls -la
+    #       exit 1
+    #     fi
 
-    - name: Copy Compiled Firmware to firmware Folder
-      run: |
-        if [ -f firmware_esp32.bin ]; then
-          mkdir -p firmware
-          cp firmware_esp32.bin firmware/firmware_esp32.bin
-        fi
+    # - name: Copy Compiled Firmware to firmware Folder
+    #   run: |
+    #     if [ -f firmware_esp32.bin ]; then
+    #       mkdir -p firmware
+    #       cp firmware_esp32.bin firmware/firmware_esp32.bin
+    #     fi
 
-    - name: Upload firmware as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: firmware_esp32
-        path: firmware_esp32.bin
+    # - name: Upload firmware as artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: firmware_esp32
+    #     path: firmware_esp32.bin
 
     - name: Display Arduino CLI version
       run: arduino-cli version
