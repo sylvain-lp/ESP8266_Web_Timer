@@ -13,7 +13,7 @@ Welcome to the **ESP8266 Web Server Timer Project**! A Simple *"Remote Smart Tim
 - This was successfully tested for **climbing**, **running** and **Physical Education** activities. eg. ESP8266 Button would be set on top of the climbing wall.
 
 The project is designed for **electronic hobbyists** to get familiar with a tiny **fullstack IoT**, on inexpensive **ESP8266** boards. All web design can be tweaked and adapted for other sports & usage. Timer stores & displays all results on a local partition in RAM, with extra capabilities such as: sorting, loading, downloading CSV. 
-![ESP8266 Web Timer interface](images/screenshot01.png) ![ESP8266 Web Timer interface](images/screenshot02.png)
+![ESP8266 Web Timer interface](images/screenshot01.jpg) ![ESP8266 Web Timer interface](images/screenshot02.jpg)
 
 ## Features
 
