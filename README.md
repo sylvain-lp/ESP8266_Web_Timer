@@ -12,8 +12,14 @@ Welcome to the **ESP8266 Web Server Timer Project**! A Simple *"Remote Smart Tim
 - This unique feature is helpfull for activities where a coach starts the timer (from the phone) and needs the trainee to reach to a remote button & stop timer himself/herself for accurate timing.
 - This was successfully tested for **climbing**, **running** and **Physical Education** activities. eg. ESP8266 Button would be set on top of the climbing wall.
 
-The project is designed for **electronic hobbyists** to get familiar with a tiny **fullstack IoT**, on inexpensive **ESP8266** boards. All web design can be tweaked and adapted for other sports & usage. Timer stores & displays all results on a local partition in RAM, with extra capabilities such as: sorting, loading, downloading CSV. 
-![ESP8266 Web Timer interface](images/screenshot01.jpg) ![ESP8266 Web Timer interface](images/screenshot02.jpg)
+The project is designed for **electronic hobbyists** to get familiar with a tiny **fullstack IoT**, on inexpensive **ESP8266** boards. All web design can be tweaked and adapted for other sports & usage. Timer stores & displays all results on a local partition in RAM, with extra capabilities such as: sorting, loading, downloading as CSV. 
+
+<a href="images/screenshot02.jpg">
+  <img src="images/screenshot02.jpg" width="300" alt="ESP8266 Web Timer interface 2">
+</a>
+<a href="images/screenshot01.jpg">
+  <img src="images/screenshot01.jpg" width="300" alt="ESP8266 Web Timer interface 1">
+</a>
 
 ## Features
 
@@ -45,10 +51,16 @@ The project is designed for **electronic hobbyists** to get familiar with a tiny
 2. **Upload the sketch**: Compile and upload `ESP8266_WebServer.ino` to your ESP8266 board.
 3. [**Install LittleFS Plugin for Arduino IDE**](https://www.amazon.fr/gp/product/B082PM6TJR/ref=ewc_pr_img_1?smid=A9EHTJ24BA83Y&th=1)
 4. Copy ```index.html, style.css, script.js``` to the LittleFS partition (see step 3)
-5. **Connect to the Soft AP**: "```Climbing_WiFi```" network is created by the ESP8266 (pwd: *```climbclimb```*)
-6. **Open the Web Portal**: Visit the captive web portal using your web browser.
+5. Attach a **Push Button** to ESP8266, connecting Pin "**D2**" and "**G**" (Ground)
+6. Power-On ESP8266 using one of 2 options:
+   - PowerBank plugged to USB connector of the board, or
+   - a 3xAA Battery Case connected to +5 VCC Pin (red wire) and Ground (black wire)
+8. **Connect your SmartPhone to the Soft AP**: "```Climbing_WiFi```" network is created by the ESP8266 (pwd: *```climbclimb```*)
+9. **Open the Web Portal**: Visit the captive web portal using your web browser.
 
-![ESP8266 Web Timer breadboard](images/breadboard01.png)
+<a href="images/breadboard01.png">
+  <img src="images/breadboard01.png" width="300" alt="ESP8266 Web Timer breadboard">
+</a>
 
 ## Contributing
 
