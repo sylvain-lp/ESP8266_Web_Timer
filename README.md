@@ -44,13 +44,14 @@ The project is designed for **electronic hobbyists** to get familiar with a tiny
 - **index.html**: The main web page served by the server.
 - **style.css**: Stylesheet to make the web interface look sleek.
 - **script.js**: JavaScript to add interactivity to the web page.
+- *.svg, *.png: Icons used in Web Interface & Favicon. Png file is background image.
 
 ## Getting Started
 
 1. **Clone this repository**: `git clone https://github.com/your-username/ESP8266_WebServer_Project.git`
 2. **Upload the sketch**: Compile and upload `ESP8266_WebServer.ino` to your ESP8266 board.
 3. [**Install LittleFS Plugin for Arduino IDE**](https://www.amazon.fr/gp/product/B082PM6TJR/ref=ewc_pr_img_1?smid=A9EHTJ24BA83Y&th=1)
-4. Copy ```index.html, style.css, script.js``` to the LittleFS partition (see step 3)
+4. Copy ```index.html, style.css, script.js, *.svg, *.png```  to the LittleFS partition (see step 3)
 5. Attach a **Push Button** to ESP8266, connecting Pin "**D2**" and "**G**" (Ground)
 6. Power-On ESP8266 using one of 2 options:
    - PowerBank plugged to USB connector of the board, or
