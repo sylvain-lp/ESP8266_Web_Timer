@@ -1,0 +1,40 @@
+direction: right
+index.LOAD.style.fill: lightblue
+
+esp8266ws: "esp8266_web.ino" {
+    /fileLoad.style.fill: lightblue
+    /fileSave
+    /fileList
+}
+
+littlefs: "mylittlefs.cpp" {
+    handleFileLoad().style.fill: lightblue
+    handleFileSave()
+    handleFileList()
+    handleFileRequest()
+}
+
+index: "index.html" {
+    LOAD
+    SAVE
+    LIST
+    ABOUT
+    # fileLoad
+    # fileList
+    # fileSave
+    # About
+}
+
+js: "script.js" {
+
+}
+index.load -> js.loadResults() -> esp8266ws./fileLoad
+index.save -> js.saveResults() -> esp8266ws./fileSave
+index.list -> js.listResults() -> esp8266ws./fileList
+ 
+esp8266ws./fileLoad -> littlefs.handleFileLoad()
+esp8266ws./fileSave -> littlefs.handleFileSave()
+esp8266ws./fileList -> littlefs.handleFileList():ext=.csv\naction=load
+
+# littlefs.handleFileList.action -> js.fileList: LOAD
+# littlefs.handleFileList.action -> js.fileList: DOWNLOAD
