@@ -5,75 +5,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="/stopwatch.svg">
-    <title data-en="Climbing Timer" data-fr="Chronomètre d'Escalade">Climbing Timer</title>
+    <title>Climbing Timer</title>
     <link rel="stylesheet" href="/style.css">
+
 </head>
 
 <body>
     <div class="container">
-        <h2 data-en="Climbing Timer" data-fr="Chronomètre d'Escalade">Climbing Timer</h2>
+        <h2>Climbing Timer</h2>
 
         <!-- Tab structure -->
         <div class="tab-container">
             <div class="tab-header">
                 <input type="radio" id="tab1" name="tabs" checked>
-                <label for="tab1" data-en="Timer" data-fr="Chronomètre">Timer</label>
+                <label for="tab1">Timer</label>
                 <input type="radio" id="tab2" name="tabs">
-                <label for="tab2" data-en="Files" data-fr="Fichiers">Files</label>
+                <label for="tab2">Files</label>
 
                 <!-- Language Toggle Switch -->
                 <div class="language-toggle">
-                    <input id="language-switch" class="cmn-toggle cmn-toggle-round" type="checkbox" onchange="switchLanguage()">
+                    <input id="language-switch" class="cmn-toggle cmn-toggle-round" type="checkbox">
                     <label for="language-switch"></label>
                     <span class="language-en">EN</span>
                     <span class="language-fr">FR</span>
                 </div>
+
             </div>
 
             <!-- Tab 1 content -->
             <div class="tab-content" id="tab1-content">
                 <div class="input-container">
-                    <input type="text" id="climberName" data-en-placeholder="Enter climber name" data-fr-placeholder="Entrez le nom du grimpeur" placeholder="Enter climber name">
-                    <button id="addClimber" onclick="addClimber()" data-en="&#65291; Add" data-fr="&#65291; Ajouter">&#65291; Add</button>
+                    <input type="text" id="climberName" placeholder="Enter climber name">
+                    <button id="addClimber" onclick="addClimber()">&#65291;
+                        Add</button><!--  <b>&#65291;Add</b></button> -->
                 </div>
                 <table id="climberTable">
                     <thead>
                         <tr>
+                            <!-- <th>&#9745;</th> -->
                             <th>&#10004;</th>
-                            <th onclick="sortTable(1)" data-en="Name" data-fr="Nom">Name</th>
-                            <th onclick="sortTable(2)" data-en="Time" data-fr="Temps">Time</th>
-                            <th data-en="Actions" data-fr="Actions">Actions</th>
+                            <th onclick="sortTable(1)">Name</th>
+                            <th onclick="sortTable(2)">Time</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
                 <div class="timer-container">
-                    <div class="timer-label" data-en="Timer" data-fr="Temps">Timer</div>
+                    <div class="timer-label">Timer</div>
                     <div id="timer" class="lcd-display">00:00.00</div>
                 </div>
-                <button id="startStop" onclick="startStop()" data-en="Start" data-fr="Démarrer">Start</button>
-                <button id="penalty" onclick="addPenalty()" data-en="Penalty" data-fr="Pénalité">Penalty</button>
-                <button id="reset" onclick="resetTimer()" data-en="Reset" data-fr="Initialiser">Reset</button>
+                <button id="startStop" onclick="startStop()">Start</button>
+                <button id="penalty" onclick="addPenalty()">Penalty</button>
+                <button id="reset" onclick="resetTimer()">Reset</button>
             </div>
 
             <!-- Tab 2 content -->
             <div class="tab-content" id="tab2-content">
                 <ul class="options-menu">
-                    <li><button onclick="loadResults()" data-en="<b>Load</b> Results from Timer" data-fr="<b>Charger</b> les résultats du chronomètre"><b>Load</b> Results from Timer</button></li>
-                    <li><button onclick="saveResults()" data-en="<b>Save</b> Results to Timer" data-fr="<b>Enregistrer</b> les résultats sur le chronomètre"><b>Save</b> Results to Timer</button></li>
-                    <li><button onclick="listResults()" data-en="<b>List</b> Available Results Backed up" data-fr="<b>Lister</b> les résultats sauvegardés disponibles"><b>List</b> Available Results Backed up</button></li>
+                    <li><button onclick="loadResults()"><b>Load</b> Results from Timer</button></li>
+                    <li><button onclick="saveResults()"><b>Save</b> Results to Timer</button></li>
+                    <!-- <li><button onclick="downloadResults()"><b>Download</b> Results to Phone</button></li> -->
+                    <!-- <li><button onclick="shareResults()"><b>Share</b> Results</button></li> -->
+                    <li><button onclick="listResults()"><b>List</b> Available Results Backed up</button></li>    
+                    <li> <!-- ABOUT THIS PROJECT -->
+                        <button onclick="customAlert(`
+                            <h3>About Climbing Timer</h3>
+                            <p style='text-align: left;'>Thanks for using this project! Hope you're having fun</p>
+                            <ul style='text-align: left;'>
+                                <li>Climbing Timer v1.0.0 Beta rel. 02</li>
+                                <li>Design & Build: Etienne & Co.</li>
+                                <li><i>for: EPS Les Minimes (2024/25)</i></li>
+                                <li>Project: <a href='https://github.com/sylvain-lp/ESP8266_Web_Timer' target='_blank'>Github Repository</a></li>
+                            </ul>
+                        `)">
+                            <b>About</b> More About this Project
+                        </button>
+                    </li>
+
                 </ul>
             </div>
         </div>
     </div>
 
     <!-- Modal for Edit Climber Name -->
-    <div id="editModal" class="modal">
+    <div id="editModal" class="modal" style="display:none;">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('editModal')">&times;</span>
-            <h2 data-en="Edit Climber" data-fr="Renommer le Grimpeur">Edit Climber</h2>
-            <input type="text" id="editClimberName" data-en-placeholder="Enter new name" data-fr-placeholder="Entrez le nouveau nom" placeholder="Enter new name">
-            <button onclick="saveEditClimber()" data-en="Save" data-fr="Enregistrer">Save</button>
+            <span class="close-button" id="closeEditModalButton">&times;</span>
+            <h2>Edit Climber</h2>
+            <!-- label for="editClimberName">Name:</label -->
+            <input type="text" id="editClimberName" placeholder="Enter new name">
+            <button onclick="saveEditClimber()">Save</button>
+            <button onclick="closeEditModal()">Cancel</button>
         </div>
     </div>
 
@@ -81,10 +104,10 @@
     <div id="removeModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('removeModal')">&times;</span>
-            <h2 data-en="Remove Climber" data-fr="Supprimer le Grimpeur">Remove Climber</h2>
-            <p data-en="Are you sure you want to remove this climber?" data-fr="Êtes-vous sûr de vouloir supprimer ce grimpeur ?">Are you sure you want to remove this climber?</p>
-            <button onclick="confirmRemoveClimber()" data-en="Yes" data-fr="Oui">Yes</button>
-            <button onclick="closeModal('removeModal')" data-en="No" data-fr="Non">No</button>
+            <h2>Remove Climber</h2>
+            <p>Are you sure you want to remove this climber?</p>
+            <button onclick="confirmRemoveClimber()">Yes</button>
+            <button onclick="closeModal('removeModal')">No</button>
         </div>
     </div>
 
@@ -92,11 +115,24 @@
     <div id="listResultsModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('listResultsModal')">&times;</span>
-            <b data-en="List Files" data-fr="Liste des Fichiers">List Files</b>
+            <b>List Files</b>
             <div id="listResultsContainer"></div>
-            <button id="closeListResultsModal" class="modal-close-btn" data-en="OK" data-fr="OK">OK</button>
+            <button id="closeListResultsModal" class="modal-close-btn">OK</button>
+            <!-- <button onclick="closeModal('listResultsModal')" class="modal-button">Close</button> -->
         </div>
     </div>
+
+    <!-- Modal for FILE NAME Input when SAVING RESULTS -->
+    <div id="customInputModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2 id="modalMessage"></h2>
+            <input type="text" id="filenameInput" />
+            <button id="okButton">Ok</button>
+            <button id="cancelButton" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
     <script src="/script.js"></script>
 </body>
 
