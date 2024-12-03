@@ -19,43 +19,13 @@ enum ResetState {
 };
 ResetState resetState = NORMAL;
 
-/*
-// Define a map of file extensions to MIME types
-String getMimeType(const String& path) {
-  if (path.endsWith(".html")) return "text/html";
-  else if (path.endsWith(".css")) return "text/css";
-  else if (path.endsWith(".js")) return "application/javascript";
-  else if (path.endsWith(".png")) return "image/png";
-  else if (path.endsWith(".svg")) return "image/svg+xml";
-  else if (path.endsWith(".csv")) return "text/csv";
-  else if (path.endsWith(".ico")) return "image/x-icon";
-  return "text/plain";
-}
-
-// Generic function to handle file requests
-void handleFileRequest(const String& path) {
-  String contentType = getMimeType(path);
-  Serial.print("File Request: ");
-  Serial.println(path);
-  if (LittleFS.exists(path)) {
-    File file = LittleFS.open(path, "r");
-    server.streamFile(file, contentType);
-    file.close();
-    Serial.print(contentType);
-    Serial.println(" --> File Request: SUCCESSFUL");
-  } else {
-    server.send(404, "text/plain", "File not found");
-    Serial.println("File Request: FAILED");
-  }
-}
-*/
-
 void setup() {
   Serial.begin(115200);
   pinMode(switchPin, INPUT_PULLUP);
 
   WiFi.softAP(ssid, password);
-  Serial.printf("Access Point \"%s\" started\n", String(ssid));
+  Serial.printf("\nAccess Point \"%s\" started\n", ssid);
+
   Serial.printf("IP address:\t%s\n", WiFi.softAPIP().toString().c_str());
 
   if (!LittleFS.begin()) {
@@ -79,13 +49,13 @@ void setup() {
   server.on("/timerStatus",   HTTP_GET, handleTimerStatus);
   server.on("/fileList",      HTTP_GET, handleFileList);
   server.on("/fileSave",      HTTP_POST,handleFileSave);
-  server.on("/fileLoad",      HTTP_GET, handleFileLoad);
+  server.on("/fileLoad",      HTTP_GET, handleFileLoad); //handleFileLoad);
   server.on("/fileDownload",  HTTP_GET, handleFileDownload);
   server.on("/time",          HTTP_POST,handleTimeSet);
   
   server.onNotFound([]() { handleFileRequest("/index.html"); });
   server.begin();
-  Serial.println("HTTP server started");
+  Serial.println("HTTP server started...");
 }
 
 void loop() {
